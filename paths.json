@@ -1,16 +1,16 @@
 {
   "mappings": [
-    "/content/wknd-universal/language-masters/en/:/",
-    "/content/wknd-universal/configuration:/.helix/config.json",
-    "/content/wknd-universal/metadata:/metadata.json",
-    "/content/wknd-universal/redirects:/redirects.json",
-    "/content/wknd-universal/language-masters/placeholders:/language-masters/placeholders.json",
-    "/content/wknd-universal/language-masters/en/placeholders:/language-masters/en/placeholders.json",
-    "/content/wknd-universal/language-masters/en/placeholders:/en/placeholders.json",
-    "/content/wknd-universal/placeholders:/placeholders.json",
-    "/content/wknd-universal.resource/language-masters/en/query-index.json:/en/query-index.json"
+    "/content/minto/language-masters/en/:/",
+    "/content/minto/configuration:/.helix/config.json",
+    "/content/minto/metadata:/metadata.json",
+    "/content/minto/redirects:/redirects.json",
+    "/content/minto/language-masters/placeholders:/language-masters/placeholders.json",
+    "/content/minto/language-masters/en/placeholders:/language-masters/en/placeholders.json",
+    "/content/minto/language-masters/en/placeholders:/en/placeholders.json",
+    "/content/minto/placeholders:/placeholders.json",
+    "/content/minto.resource/language-masters/en/query-index.json:/en/query-index.json"
   ],
   "includes": [
-    "/content/wknd-universal/"
+    "/content/minto/"
   ]
 }
