@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: "https://author-p153659-e1620914.adobeaemcloud.com/bin/franklin.delivery/AEMXSC/minto/main"
+    url: "https://author-p153659-e1620914.adobeaemcloud.com/bin/franklin.delivery/srm0233/minto/main"
     type: "markup"
     suffix: ".html"
