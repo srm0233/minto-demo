@@ -3,7 +3,7 @@ footer {
   font-size: var(--body-font-size-xs);
   font-family: var(--light-font-family);
   background-color: #052147;
-  background-color: #000;
+  background-color: #052147;
   width: 100%;
   z-index: 2;
   color: #ffffff;
