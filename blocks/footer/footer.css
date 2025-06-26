@@ -2,7 +2,7 @@ footer {
   background-color: var(--dark-color);
   font-size: var(--body-font-size-xs);
   font-family: var(--light-font-family);
-  background-color: var(--dark-color-opacity);
+  background-color: #052147;
   background-color: #000;
   width: 100%;
   z-index: 2;
