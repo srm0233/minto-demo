@@ -934,7 +934,7 @@
                 "valueType": "string",
                 "rootPath": "",
                 "description": "Path to linked AEM content"
-                   }
+      }
     ]
   },
   {
