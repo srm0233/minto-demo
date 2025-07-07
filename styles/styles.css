@@ -487,6 +487,17 @@ button.secondary {
   color: var(--text-color);
 }
 
+a.button.minto,
+button.minto {
+  background-color: unset;
+  color: var(--text-color);
+  border: none; /* No box outline */
+  padding: var(--button-vertical-padding-secondary) var(--button-horizontal-padding-secondary);
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  cursor: pointer;
+}
+
 main img {
   max-width: 100%;
   width: auto;
