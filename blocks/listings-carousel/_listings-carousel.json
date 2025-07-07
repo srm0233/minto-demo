@@ -1,0 +1,33 @@
+{
+  "definitions": [
+    {
+      "title": "Listings Carousel",
+      "id": "listings-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Listings Carousel",
+              "model": "listings-carousel"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "listings-carousel",
+      "fields": [
+        {
+          "component": "aem-tag",
+          "name": "tags",
+          "label": "Tag",
+          "rootPath": "/content/cq:tags/securbank"
+        }
+      ]
+    }
+  ],
+  "filters": []
+} 
