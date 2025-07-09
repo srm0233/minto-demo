@@ -5537,7 +5537,7 @@
             "description": "Select the Listing CF to display on the page",
             "valueType": "string",
             "validation": {
-                "rootPath": "/content/dam/minto/en/listings"
+              "rootPath": "/content/dam/minto/en/listings"
             }
           }
         ]
