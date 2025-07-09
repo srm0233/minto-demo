@@ -1,4 +1,4 @@
-import { getAEMPublish } from '../../scripts/endpointconfig.js';
+import { getAEMAuthor, getAEMPublish } from '../../scripts/endpointconfig.js';
 import { div, p, span, a } from '../../scripts/dom-helpers.js';
 
 /**
