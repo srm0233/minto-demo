@@ -1,6 +1,5 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { isAuthorEnvironment } from '../../scripts/scripts.js';
-import { div, img, h1, p, span } from '../../scripts/dom-helpers.js';
+import { getAEMPublish } from '../../scripts/endpointconfig.js';
+import { div, img, p, span, a } from '../../scripts/dom-helpers.js';
 
 /**
  * Listing Block
@@ -50,41 +49,82 @@ export default async function decorate(block) {
     const listingBlock = div({ class: 'listing-block' },
       // Column 1: Thumbnail and Description
       div({ class: 'listing-col col1' },
-        img({ 
-          class: 'listing-thumbnail', 
-          src: listing.thumbnail?._publishUrl, 
-          alt: listing.title || 'Property thumbnail',
-          loading: 'lazy'
-        }),
-        div({ 
-          class: 'listing-description',
-          innerHTML: listing.description?.html || listing.description?.plaintext || ''
-        })
+        (() => {
+          const thumbnailUrl = listing.thumbnail?._publishUrl || '';
+          const thumbnailDynamicUrl = listing.thumbnail?._dynamicUrl ? `${getAEMPublish()}${listing.thumbnail._dynamicUrl}` : '';
+          const thumbnailAlt = listing.title || 'Property thumbnail';
+          
+          let thumbnailHtml = '';
+          if (thumbnailDynamicUrl) {
+            thumbnailHtml = `<img src="${thumbnailDynamicUrl}?width=200&height=150&fit=crop&preferwebp=true" 
+              srcset="${thumbnailDynamicUrl}?width=200&height=150&fit=crop&preferwebp=true 200w,
+                      ${thumbnailDynamicUrl}?width=300&height=225&fit=crop&preferwebp=true 300w,
+                      ${thumbnailDynamicUrl}?width=400&height=300&fit=crop&preferwebp=true 400w"
+              sizes="(max-width: 768px) 200px, (max-width: 1024px) 300px, 400px"
+              alt="${thumbnailAlt}" loading="lazy" class="listing-thumbnail">`;
+          } else if (thumbnailUrl) {
+            thumbnailHtml = `<img src="${thumbnailUrl}" alt="${thumbnailAlt}" loading="lazy" class="listing-thumbnail">`;
+          }
+          
+          const thumbnailDiv = div({ class: 'listing-thumbnail-container' });
+          thumbnailDiv.innerHTML = thumbnailHtml;
+          return thumbnailDiv;
+        })(),
+        (() => {
+          const descDiv = div({ class: 'listing-description' });
+          descDiv.innerHTML = listing.description?.html || listing.description?.plaintext || '';
+          return descDiv;
+        })()
       ),
       
-      // Column 2: Property Details
+      // Column 2: Property Details and CTAs
       div({ class: 'listing-col col2' },
-        h1({ class: 'listing-title' }, listing.title),
         p({ class: 'listing-address' }, listing.address),
         div({ class: 'listing-details' },
-          span({ class: 'listing-bed' }, `${listing.bedrooms} bed`),
-          span({ class: 'listing-bath' }, `${listing.bathrooms} bath`),
-          span({ class: 'listing-rent' }, `${formattedRent}/month`)
+          div({ class: 'listing-detail-item' },
+            span({ class: 'detail-label' }, 'Home Type:'),
+            span({ class: 'detail-value' }, listing.type || 'N/A')
+          ),
+          div({ class: 'listing-detail-item' },
+            span({ class: 'detail-label' }, 'Bedrooms:'),
+            span({ class: 'detail-value' }, `${listing.bedrooms} bed`)
+          ),
+          div({ class: 'listing-detail-item' },
+            span({ class: 'detail-label' }, 'Starting From:'),
+            span({ class: 'detail-value' }, `${formattedRent}/month`)
+          )
         ),
-        div({ class: 'listing-region' },
-          p({ class: 'region-label' }, 'Region:'),
-          p({ class: 'region-value' }, listing.region?.[0]?.split('/').pop() || 'N/A')
+        div({ class: 'listing-ctas' },
+          a({ href: '#', class: 'cta-button email-cta' }, 'Email'),
+          a({ href: '#', class: 'cta-button community-cta' }, 'Community')
         )
       ),
       
-      // Column 3: Main Image
+      // Column 3: Main Image and Community Closeout
       div({ class: 'listing-col col3' },
-        img({ 
-          class: 'listing-image', 
-          src: listing.image?._publishUrl, 
-          alt: listing.title || 'Property image',
-          loading: 'lazy'
-        })
+        (() => {
+          const imageUrl = listing.image?._publishUrl || '';
+          const dynamicUrl = listing.image?._dynamicUrl ? `${getAEMPublish()}${listing.image._dynamicUrl}` : '';
+          const imageAlt = listing.image?.title || listing.title || 'Property image';
+          
+          let imageHtml = '';
+          if (dynamicUrl) {
+            imageHtml = `<img src="${dynamicUrl}?width=400&height=300&fit=crop&preferwebp=true" 
+              srcset="${dynamicUrl}?width=400&height=300&fit=crop&preferwebp=true 400w,
+                      ${dynamicUrl}?width=600&height=450&fit=crop&preferwebp=true 600w,
+                      ${dynamicUrl}?width=800&height=600&fit=crop&preferwebp=true 800w,
+                      ${dynamicUrl}?width=1000&height=750&fit=crop&preferwebp=true 1000w"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 35vw, 35vw"
+              alt="${imageAlt}" loading="lazy" class="listing-image">`;
+          } else if (imageUrl) {
+            imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" loading="lazy" class="listing-image">`;
+          }
+          
+          const imageDiv = div({ class: 'listing-image-container' });
+          imageDiv.innerHTML = imageHtml;
+          return imageDiv;
+        })(),
+        div({ class: 'community-closeout' }, 'Community Closeout')
       )
     );
     
