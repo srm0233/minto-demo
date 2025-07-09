@@ -102,7 +102,7 @@ export default async function decorate(block) {
       card.classList.add('carousel-item', 'listing-card');
       
       const imageUrl = listing.image?._publishUrl || '';
-      const dynamicUrl = listing.image?._dynamicUrl ? `${getAEMPublish()}${listing.image._dynamicUrl}` : '';
+      const dynamicUrl = "";//listing.image?._dynamicUrl ? `${getAEMPublish()}${listing.image._dynamicUrl}` : '';
       const imageAlt = listing.image?.title || listing.title || 'Property listing image';
       const formattedRent = new Intl.NumberFormat('en-CA', {
         style: 'currency',
