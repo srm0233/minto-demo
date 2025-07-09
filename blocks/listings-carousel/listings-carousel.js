@@ -111,14 +111,14 @@ export default async function decorate(block) {
       
       // Create responsive image with srcset
       let imageHtml = '';
-      if (dynamicUrl) {
+      /* if (dynamicUrl) {
         imageHtml = `<img src="${dynamicUrl}?width=200&height=150&fit=crop&preferwebp=true" 
           srcset="${dynamicUrl}?width=200&height=150&fit=crop&preferwebp=true 200w,
                   ${dynamicUrl}?width=300&height=225&fit=crop&preferwebp=true 300w,
                   ${dynamicUrl}?width=400&height=300&fit=crop&preferwebp=true 400w"
           sizes="(max-width: 768px) 200px, (max-width: 1024px) 300px, 400px"
           alt="${imageAlt}" loading="lazy">`;
-      } else if (imageUrl) {
+      } else  */if (imageUrl) {
         imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" loading="lazy">`;
       }
       
