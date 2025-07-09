@@ -1,4 +1,4 @@
-import { getAEMPublish } from '../../scripts/endpointconfig.js';
+import { getAEMAuthor, getAEMPublish } from '../../scripts/endpointconfig.js';
 import { initializeMaps, getUserCity } from '../../scripts/google-maps.js';
 
 /**
@@ -8,8 +8,8 @@ import { initializeMaps, getUserCity } from '../../scripts/google-maps.js';
 
 // Function to fetch listings from API
 async function fetchListings(endpoint, cachebuster) {
-  const aempublishurl = getAEMPublish();
-  const url = `${aempublishurl}/graphql/execute.json/securbank/${endpoint}?ts=${cachebuster}`;
+  const aemurl = getAEMAuthor();
+  const url = `${aemurl}/graphql/execute.json/securbank/${endpoint}?ts=${cachebuster}`;
   
   const response = await fetch(url);
   if (!response.ok) {
