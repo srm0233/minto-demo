@@ -1,5 +1,5 @@
 import { getAEMPublish } from '../../scripts/endpointconfig.js';
-import { div, img, p, span, a } from '../../scripts/dom-helpers.js';
+import { div, p, span, a } from '../../scripts/dom-helpers.js';
 
 /**
  * Listing Block
