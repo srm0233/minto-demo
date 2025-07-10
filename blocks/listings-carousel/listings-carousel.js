@@ -1,5 +1,6 @@
 import { getAEMAuthor, getAEMPublish } from '../../scripts/endpointconfig.js';
 import { initializeMaps, getUserCity } from '../../scripts/google-maps.js';
+import { getLanguage } from '../../scripts/utils.js';
 
 /**
  * Listings Carousel Block
@@ -9,7 +10,8 @@ import { initializeMaps, getUserCity } from '../../scripts/google-maps.js';
 // Function to fetch listings from API
 async function fetchListings(endpoint, cachebuster) {
   const aemurl = getAEMAuthor();
-  const url = `${aemurl}/graphql/execute.json/securbank/${endpoint}?ts=${cachebuster}`;
+  const locale = getLanguage();
+  const url = `${aemurl}/graphql/execute.json/securbank/${endpoint};locale=${locale}?ts=${cachebuster}`;
   
   const response = await fetch(url);
   if (!response.ok) {
