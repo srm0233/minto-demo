@@ -460,7 +460,7 @@ export default async function decorate(block) {
   
   const navMeta = getMetadata('nav');
   const langCode = getLanguage();
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${siteName}${PATH_PREFIX}/nav`;
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${siteName}${PATH_PREFIX}/${langCode}/nav`;
 
   
   //const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
