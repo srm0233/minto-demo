@@ -6,7 +6,7 @@ import {
 export const PATH_PREFIX = '/language-masters';
 export const TAG_ROOT = 'wknd-universal:';
 //export const SITE_NAME = 'wknd-universal';
-export const SUPPORTED_LANGUAGES = ['en'];
+export const SUPPORTED_LANGUAGES = ['en', 'fr'];
 export const INTERNAL_PAGES = ['/footer', '/nav', '/fragments', '/data', '/drafts'];
 let lang;
 import { fetchPlaceholders } from './placeholders.js';
@@ -50,7 +50,7 @@ export function getInheritedPageProperties() {
   const isContentPath = pathname.startsWith('/content');
   const parts = pathname.split('/').filter(Boolean); // Filter out empty strings
   const safeLangGet = (index) => (parts.length > index ? parts[index] : 'en');
-  /* 3 is the index of the language in the path for AEM content paths like
+  /* 2 is the index of the language in the path for AEM content paths like
      /content/wknd-universal/language-masters/en/path/to/content.html
      0 is the index of the language in the path for EDS paths like /en/path/to/content
     */
