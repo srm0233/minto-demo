@@ -7,6 +7,14 @@ import { getLanguage } from '../../scripts/utils.js';
  * Displays real estate listings in a carousel format with Google Maps integration
  */
 
+// Function to extract city name from tag
+function extractCityFromTag(tag) {
+  if (!tag) return '';
+  // Extract the part after the last slash and capitalize it
+  const city = tag.split('/').pop();
+  return city ? city.charAt(0).toUpperCase() + city.slice(1) : '';
+}
+
 // Function to fetch listings from API
 async function fetchListings(endpoint, cachebuster) {
   const aemurl = getAEMAuthor();
@@ -30,12 +38,13 @@ export default async function decorate(block) {
   
   try {
     let listings = [];
-    let city = configuredTag;
+    let city = '';
     
     // Only use personalization if a valid option is selected
     if (personalization === 'taxonomy' && configuredTag) {
       const endpoint = `ListingsByTag;tag=${configuredTag}`;
       listings = await fetchListings(endpoint, cachebuster);
+      city = extractCityFromTag(configuredTag);
       console.log(`Tried configured tag "${configuredTag}": ${listings.length} listings found`);
     } else if (personalization === 'geolocation') {
       try {
