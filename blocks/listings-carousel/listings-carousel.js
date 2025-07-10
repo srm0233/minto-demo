@@ -17,7 +17,7 @@ function extractCityFromTag(tag) {
 
 // Function to fetch listings from API
 async function fetchListings(endpoint, cachebuster) {
-  const aemurl = getAEMPublish();
+  const aemurl = getAEMAuthor();
   const locale = getLanguage();
   const url = `${aemurl}/graphql/execute.json/securbank/${endpoint};locale=${locale}?ts=${cachebuster}`;
   
