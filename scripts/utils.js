@@ -48,14 +48,14 @@ import { isAuthorEnvironment } from './scripts.js';
 export function getInheritedPageProperties() {
   const { pathname } = window.location;
   const isContentPath = pathname.startsWith('/content');
-  const parts = pathname.split('/');
+  const parts = pathname.split('/').filter(Boolean); // Filter out empty strings
   const safeLangGet = (index) => (parts.length > index ? parts[index] : 'en');
-  /* 5 is the index of the language in the path for AEM content paths like
+  /* 3 is the index of the language in the path for AEM content paths like
      /content/wknd-universal/language-masters/en/path/to/content.html
-     2 is the index of the language in the path for EDS paths like /en/path/to/content
+     0 is the index of the language in the path for EDS paths like /en/path/to/content
     */
   
-  let langCode = isContentPath ? safeLangGet(3) : safeLangGet(0);
+  let langCode = isContentPath ? safeLangGet(2) : safeLangGet(0);
 
   
   // remove suffix from lang if any
@@ -84,13 +84,13 @@ export function getInheritedPageProperties() {
 export function getPathDetails() {
   const { pathname } = window.location;
   const isContentPath = pathname.startsWith('/content');
-  const parts = pathname.split('/');
+  const parts = pathname.split('/').filter(Boolean); // Filter out empty strings
   const safeLangGet = (index) => (parts.length > index ? parts[index] : 'en');
-  /* 5 is the index of the language in the path for AEM content paths like
+  /* 2 is the index of the language in the path for AEM content paths like
      /content/wknd-universal/language-masters/en/path/to/content.html
-     2 is the index of the language in the path for EDS paths like /en/path/to/content
+     0 is the index of the language in the path for EDS paths like /en/path/to/content
     */
-  let langCode = isContentPath ? safeLangGet(3) : safeLangGet(0);
+  let langCode = isContentPath ? safeLangGet(2) : safeLangGet(0);
   // remove suffix from lang if any
   if (langCode.indexOf('.') > -1) {
     langCode = langCode.substring(0, langCode.indexOf('.'));
@@ -231,7 +231,7 @@ export function getHref() {
 export function isInternalPage() {
   const pageUrl = getHref();
   // eslint-disable-next-line consistent-return
-  INTERNAL_PAGES.forEach((element) => { if (pageUrl.indexOf(element) > 0) return true; });
+  INTERNAL_PAGES.forEach((element) => { if (pageUrl.indexOf(element) > 1) return true; });
   return false;
 }
 
@@ -247,20 +247,14 @@ export function getQueryString(key = 'tip', path = window.location.href) {
 }
 
 /**
- * Process Dynamic media image to append query param
+ * Process dynamic media asset
  * @param {*} pictureElement
  * @param {*} qParam
  */
 export function dynamicMediaAssetProcess(pictureElement, qParam) {
-  const queryParams = qParam.textContent.trim();
-  if (queryParams.length > 0) {
-    Array.from(pictureElement.children).forEach((child) => {
-      const baseUrl = child.tagName === 'SOURCE' ? child.srcset.split('?')[0] : child.src.split('?')[0];
-      if (child.tagName === 'SOURCE' && child.srcset) {
-        child.srcset = `${baseUrl}?${queryParams}`;
-      } else if (child.tagName === 'IMG' && child.src) {
-        child.src = `${baseUrl}?${queryParams}`;
-      }
-    });
+  const img = pictureElement.querySelector('img');
+  if (img) {
+    const { pathname } = new URL(img.src, window.location.href);
+    img.src = `${pathname}?${qParam}`;
   }
 }
