@@ -1,6 +1,7 @@
 {
   "mappings": [
-    "/content/minto/en/:/",
+    "/content/minto/en/:/en/",
+    "/content/minto/fr/:/fr/"
     "/content/minto/configuration:/.helix/config.json",
     "/content/minto/metadata:/metadata.json",
     "/content/minto/redirects:/redirects.json",
