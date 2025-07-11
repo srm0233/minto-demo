@@ -35,6 +35,13 @@
           "value": ""
         },
         {
+          "component": "text",
+          "name": "dmUrl",
+          "label": "Dynamic Media URL",
+          "value": "https://smartimaging.scene7.com/is/image/DynamicMediaNA",
+          "valueType": "string"
+        },
+        {
           "component": "richtext",
           "name": "text",
           "value": "",
