@@ -15,21 +15,21 @@ function extractCityFromTag(tag) {
   return city ? city.charAt(0).toUpperCase() + city.slice(1) : '';
 }
 
+// Function to filter listings by locale
+function filterListingsByLocale(listings, locale) {
+  if (!locale || !listings || listings.length === 0) return listings;
+  
+  return listings.filter(listing => {
+    // Check if the listing path contains the locale
+    const listingPath = listing._path || listing.path || '';
+    return listingPath.includes(`/${locale}/`) || listingPath.includes(`/${locale}.`);
+  });
+}
+
 // Function to fetch listings from API
 async function fetchListings(endpoint, cachebuster) {
   const aempublishurl = getAEMPublish();
-  const locale = getLanguage();
-  
-  // For endpoints that already have parameters, insert locale as the first parameter
-  let url;
-  if (endpoint.includes(';')) {
-    // Endpoint already has parameters, insert locale first
-    const [baseEndpoint, ...existingParams] = endpoint.split(';');
-    url = `${aempublishurl}/graphql/execute.json/securbank/${baseEndpoint};locale=${locale};${existingParams.join(';')}?ts=${cachebuster}`;
-  } else {
-    // Endpoint has no parameters, just add locale
-    url = `${aempublishurl}/graphql/execute.json/securbank/${endpoint};locale=${locale}?ts=${cachebuster}`;
-  }
+  const url = `${aempublishurl}/graphql/execute.json/securbank/${endpoint}?ts=${cachebuster}`;
   
   const response = await fetch(url);
   if (!response.ok) {
@@ -45,6 +45,7 @@ export default async function decorate(block) {
   const personalization = props[0]?.textContent.trim() || '';
   const configuredTag = props[1]?.textContent.trim() || '';
   const cachebuster = Math.floor(Math.random() * 1000);
+  const locale = getLanguage();
   
   try {
     let listings = [];
@@ -54,16 +55,20 @@ export default async function decorate(block) {
     if (personalization === 'taxonomy' && configuredTag) {
       const endpoint = `ListingsByTag;tag=${configuredTag}`;
       listings = await fetchListings(endpoint, cachebuster);
+      // Filter by locale
+      listings = filterListingsByLocale(listings, locale);
       city = extractCityFromTag(configuredTag);
-      console.log(`Tried configured tag "${configuredTag}": ${listings.length} listings found`);
+      console.log(`Tried configured tag "${configuredTag}": ${listings.length} listings found after locale filtering`);
     } else if (personalization === 'geolocation') {
       try {
         const userCity = await getUserCity();
         const cityTag = userCity.toLowerCase();
         const endpoint = `ListingsByTag;tag=${cityTag}`;
         listings = await fetchListings(endpoint, cachebuster);
+        // Filter by locale
+        listings = filterListingsByLocale(listings, locale);
         city = userCity; // Keep original case for display
-        console.log(`Tried user's city "${cityTag}": ${listings.length} listings found`);
+        console.log(`Tried user's city "${cityTag}": ${listings.length} listings found after locale filtering`);
       } catch (error) {
         console.warn('Could not get user location or no listings found for location:', error);
         // Don't set city here since geolocation failed
@@ -76,7 +81,9 @@ export default async function decorate(block) {
       try {
         const endpoint = 'ListingList';
         listings = await fetchListings(endpoint, cachebuster);
-        console.log(`Tried ListingList API: ${listings.length} listings found`);
+        // Filter by locale
+        listings = filterListingsByLocale(listings, locale);
+        console.log(`Tried ListingList API: ${listings.length} listings found after locale filtering`);
         // Reset city since we're showing all listings, not city-specific ones
         city = '';
       } catch (error) {
