@@ -6,6 +6,25 @@ import { div, p, span, a } from '../../scripts/dom-helpers.js';
  * Displays a single real estate listing with detailed information in a 3-column layout
  */
 
+// Function to extract first paragraph content from HTML
+function extractFirstParagraph(htmlContent) {
+  if (!htmlContent) return '';
+  
+  // Create a temporary div to parse the HTML
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlContent;
+  
+  // Get the first p tag
+  const firstParagraph = tempDiv.querySelector('p');
+  
+  if (firstParagraph) {
+    return firstParagraph.textContent || firstParagraph.innerText || '';
+  }
+  
+  // If no p tags found, return the plain text content
+  return tempDiv.textContent || tempDiv.innerText || '';
+}
+
 // Function to fetch listing data from API
 async function fetchListing(path, cachebuster) {
   const aemurl = getAEMAuthor();
@@ -45,6 +64,9 @@ export default async function decorate(block) {
       currency: 'CAD'
     }).format(listing.monthlyRent);
     
+    // Extract first paragraph from description
+    const descriptionText = extractFirstParagraph(listing.description?.html || listing.description?.plaintext || '');
+    
     // Create the 3-column layout
     const listingBlock = div({ class: 'listing-block' },
       // Column 1: Thumbnail and Description
@@ -72,12 +94,12 @@ export default async function decorate(block) {
         })(),
         (() => {
           const descDiv = div({ class: 'listing-description' });
-          descDiv.innerHTML = listing.description?.html || listing.description?.plaintext || '';
+          descDiv.innerHTML = descriptionText;
           return descDiv;
         })()
       ),
       
-      // Column 2: Property Details and CTAs
+      // Column 2: Property Details
       div({ class: 'listing-col col2' },
         p({ class: 'listing-address' }, listing.address),
         div({ class: 'listing-details' },
@@ -100,7 +122,7 @@ export default async function decorate(block) {
         )
       ),
       
-      // Column 3: Main Image and Community Closeout
+      // Column 3: Main Image
       div({ class: 'listing-col col3' },
         (() => {
           const imageUrl = listing.image?._publishUrl || '';
