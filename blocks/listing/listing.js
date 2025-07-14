@@ -17,7 +17,7 @@ async function fetchListing(path, cachebuster) {
   }
   
   const data = await response.json();
-  return data.data?.listingByPath?.item;
+  return data.data?.ListingList?.items[0];
 }
 
 export default async function decorate(block) {
