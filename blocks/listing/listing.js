@@ -1,4 +1,4 @@
-import { getAEMAuthor, getAEMPublish } from '../../scripts/endpointconfig.js';
+import { getAEMPublish } from '../../scripts/endpointconfig.js';
 import { div, p, span, a } from '../../scripts/dom-helpers.js';
 
 /**
@@ -8,7 +8,7 @@ import { div, p, span, a } from '../../scripts/dom-helpers.js';
 
 // Function to fetch listing data from API
 async function fetchListing(path, cachebuster) {
-  const aemurl = getAEMAuthor();
+  const aemurl = getAEMPublish();
   const url = `${aemurl}/graphql/execute.json/securbank/ListingByPath;path=${path}?ts=${cachebuster}`;
   
   const response = await fetch(url);

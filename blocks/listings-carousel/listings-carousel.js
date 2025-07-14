@@ -1,4 +1,4 @@
-import { getAEMAuthor, getAEMPublish } from '../../scripts/endpointconfig.js';
+import { getAEMPublish } from '../../scripts/endpointconfig.js';
 import { initializeMaps, getUserCity } from '../../scripts/google-maps.js';
 import { getLanguage } from '../../scripts/utils.js';
 
