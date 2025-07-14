@@ -143,72 +143,27 @@
 
 .hero picture {
   position: absolute;
-  z-index: 1;
+  z-index: -1;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  object-fit: cover;
   box-sizing: border-box;
 }
 
 .hero img {
   object-fit: cover;
-  object-position: center;
+  object-position: left;
   width: 100%;
   height: 100%;
 }
 
-.hero > div:last-child {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
+@media (width >= 900px) {
+  .hero {
+    padding: 40px 32px;
+  }
 }
 
-.hero-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 
-.hero-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
 
-.hero-image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.hero-image-container picture {
-  width: 100%;
-  height: 100%;
-}
-
-.hero-image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.hero-text-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 24px;
-}
 
 /* Responsive Styles */
 @media (width < 1024px) {
