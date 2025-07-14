@@ -17,9 +17,19 @@ function extractCityFromTag(tag) {
 
 // Function to fetch listings from API
 async function fetchListings(endpoint, cachebuster) {
-  const aemurl = getAEMPublish();
+  const aempublishurl = getAEMPublish();
   const locale = getLanguage();
-  const url = `${aemurl}/graphql/execute.json/securbank/${endpoint};locale=${locale}?ts=${cachebuster}`;
+  
+  // For endpoints that already have parameters, insert locale as the first parameter
+  let url;
+  if (endpoint.includes(';')) {
+    // Endpoint already has parameters, insert locale first
+    const [baseEndpoint, ...existingParams] = endpoint.split(';');
+    url = `${aempublishurl}/graphql/execute.json/securbank/${baseEndpoint};locale=${locale};${existingParams.join(';')}?ts=${cachebuster}`;
+  } else {
+    // Endpoint has no parameters, just add locale
+    url = `${aempublishurl}/graphql/execute.json/securbank/${endpoint};locale=${locale}?ts=${cachebuster}`;
+  }
   
   const response = await fetch(url);
   if (!response.ok) {
@@ -55,11 +65,13 @@ export default async function decorate(block) {
         city = userCity; // Keep original case for display
         console.log(`Tried user's city "${cityTag}": ${listings.length} listings found`);
       } catch (error) {
-        console.warn('Could not get user location:', error);
+        console.warn('Could not get user location or no listings found for location:', error);
+        // Don't set city here since geolocation failed
+        city = '';
       }
     }
     
-    // If no listings found or no valid personalization, use the fallback API
+    // If no listings found from personalization, use the fallback API
     if (listings.length === 0) {
       try {
         const endpoint = 'ListingList';
