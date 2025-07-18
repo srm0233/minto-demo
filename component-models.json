@@ -5534,7 +5534,7 @@
     "fields": [
       {          
         "component": "aem-content",
-        "name": "listingPath",
+        "name": "listing1Path",
         "label": "Listing Path",
         "description": "Select the Listing CF to display on the page",
         "valueType": "string",
