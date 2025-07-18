@@ -5544,4 +5544,19 @@
       }
     ]
   }
+  {
+    "id": "listing1",
+    "fields": [
+      {          
+        "component": "aem-content",
+        "name": "listing1Path",
+        "label": "Listing1 Path",
+        "description": "Select the Listing CF to display on the page",
+        "valueType": "string",
+        "validation": {
+          "rootPath": "/content/dam/minto/en/listings"
+        }
+      }
+    ]
+  }
 ]
