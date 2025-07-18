@@ -9,7 +9,7 @@ import { div, p, span, a } from '../../scripts/dom-helpers.js';
 // Function to fetch listing1 data from API
 async function fetchlisting1(path, cachebuster) {
   const aemurl = getAEMPublish();
-  const url = `${aemurl}/graphql/execute.json/securbank/listing1ByPath;path=${path}?ts=${cachebuster}`;
+  const url = `${aemurl}/graphql/execute.json/minto/listing1ByPath;path=${path}?ts=${cachebuster}`;
   
   const response = await fetch(url);
   if (!response.ok) {
