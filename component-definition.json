@@ -868,6 +868,21 @@
             }
           }
         },
+				{
+          "title": "Listing1",
+          "id": "listing1",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Listing1",
+                  "model": "listing1"
+                }
+              }
+            }
+          }
+        },
         {
           "...": "../blocks/*/_*.json#/definitions"
         }
